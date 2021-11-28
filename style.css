@@ -222,13 +222,13 @@ p{
     justify-content: space-between;
     align-items: center;
     margin: 1rem 0;
-    transition: opacity 1s ease-out,
+    transition: opacity .6s ease-out,
     transform 2s ease;
 }
 .tasks__text{
     margin: 1rem;
     width: 60%;
-    transition: text-decoration 1s ease;
+    transition: text-decoration .6s ease;
 }
 .tasks__btns{
     padding:1rem;
@@ -245,7 +245,7 @@ p{
     border:none;
     color: var(--primary-color);
     background-color: var(--tick-color);
-    transition: width 1s ease;
+    transition: width .6s ease;
 }
 .tasks__btn--remove{
     -webkit-appearance: none;

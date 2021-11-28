@@ -4,7 +4,7 @@ function taskManager() {
     const tasks = [];//for getting and setting the local storage
     
     //adding task
-    this.addTask = (taskTitle, taskDescription,status) => {
+    this.createTask = (taskTitle, taskDescription,status) => {
         const newTask = {
             taskID:tasks.length,
             taskTitle,
@@ -26,6 +26,13 @@ function taskManager() {
         `
         tasksPlace.appendChild(newTaskElement);
         tasks.push(newTask);
+        
+        
+        //creating event for removeing task
+        document.querySelector(`#remove${newTask.taskID}`).addEventListener("click",(e)=>{
+            this.removeTask(newTask.taskID);
+            });
+            
 
     }
 
@@ -35,21 +42,21 @@ function taskManager() {
     }
     this.removeTask=(taskId)=>{
         console.log(taskId)
-        tasks.forEach((element,index)=>{
-            if(element.taskID==taskId){
-                tasks[index].status="removed";
-                const task=document.querySelector(`#taskNO${taskId}`);
+        for (let i=0;i<tasks.length;i++){ 
+            if (tasks[i].taskID==taskId){ 
+                const task=document.querySelector(`#taskNO${taskId}`);                 
                 task.classList.add("tasks--remove");
-                tasksPlace.removeChild(task);
-            }
-        })
+                tasks.splice(i,1);   
+                setTimeout(()=>{
+                    tasksPlace.removeChild(task);
+                },600)              
+                break;
+            } 
+        }
     }
 }
 
 const taskManagerObj = new taskManager();
-//
-
-
 
 //adding task with events
 document.querySelector('#addTaskBTN').addEventListener("click",(e)=>{
@@ -61,16 +68,10 @@ document.querySelector('#addTaskBTN').addEventListener("click",(e)=>{
         },5000)
         return;
     }
-    taskManagerObj.addTask(document.querySelector("#taskTitle").value,document.querySelector("#taskDescription").value,"uncompleted")
+    taskManagerObj.createTask(document.querySelector("#taskTitle").value,document.querySelector("#taskDescription").value,"uncompleted")
     
-    //events for removing tasks
-    for(let i=0;i<taskManagerObj.tasksArray().length;i++){
-        console.log(i)
-        document.querySelector(`#remove${i}`).addEventListener("click",()=>{
-            taskManagerObj.removeTask(i);
-            console.log(i)
-            console.log(taskManagerObj.tasksArray())
-        });
-    }
+    
+    
+    
 })
 //removing task
