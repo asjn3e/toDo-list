@@ -6,9 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>asjn3e's to do list</title>
+    <!-- font awesome script -->
+    <script src="https://kit.fontawesome.com/289a36e3d3.js" crossorigin="anonymous"></script>
+    <!-- google font links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;300;500;600;900&family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-
+    <main class="container">
+        <h1 class="primary-title">Simple Todo List</h1>
+        <form action="" class="form">
+            <input type="text" class="form__textInput" placeholder="add Task Title">
+            <textarea placeholder="add Task Description" class="form__textarea" ></textarea>
+            <button class="form__button">
+                add
+            </button>
+            <div class="form__selectpart">
+                <select name="" id="statusSpecifier" class="form__select">
+                    <option value="">All</option>
+                    <option value="">Completed</option>
+                    <option value="">not Completed</option>
+                </select>
+            </div>
+        </form>
+        <ul id="TasksPlace">
+            <li class="box tasks">
+                <div class="tasks__text">
+                    <h3>feed the dog</h3>
+                    <p>description time dawdawd</p>
+                </div>
+                <div class="tasks__btns">
+                    <button class="tasks__btn tasks__btn--tick"><i class="fas fa-check"></i></button>
+                    <button class="tasks__btn tasks__btn--remove"><i class="fas fa-trash"></i></button>
+                </div>
+            </li>
+            <li class="box tasks tasks--done">
+                <div class="tasks__text">
+                    <h3>feed the dog</h3>
+                    <p>description time dawdawd</p>
+                </div>
+                <div class="tasks__btns">
+                    <button class="tasks__btn tasks__btn--tick"><i class="fas fa-check"></i></button>
+                    <button class="tasks__btn tasks__btn--remove"><i class="fas fa-trash"></i></button>
+                </div>
+            </li>
+        </ul>
+    </main>
     <script src="index.js"></script>
 </body>
 </html>
