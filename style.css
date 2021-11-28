@@ -214,6 +214,9 @@ p{
         font-size: 1.5rem;
     }
 }
+.tasksPlace{
+    list-style: none;
+}
 .tasks{
     display: flex;
     justify-content: space-between;
@@ -224,10 +227,12 @@ p{
 }
 .tasks__text{
     margin: 1rem;
+    width: 60%;
     transition: text-decoration 1s ease;
 }
 .tasks__btns{
     padding:1rem;
+    
 }
 .tasks__btn{
     margin: 0 .3rem;
@@ -275,6 +280,8 @@ p{
     }
     .tasks__text{
         margin: 1rem;
+        width: 70%;
+
     }
     .tasks__btns{
         padding:1rem;
