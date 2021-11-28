@@ -20,6 +20,7 @@ body{
     height: auto;
     background: var(--bg-gradient);
     background-attachment: fixed;
+    overflow-x:hidden;
 }
 h1{
     font-size: 3rem;
