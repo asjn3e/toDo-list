@@ -28,11 +28,15 @@ function taskManager() {
         tasks.push(newTask);
         
         
-        //creating event for removeing task
+        //creating events for removeing task
         document.querySelector(`#remove${newTask.taskID}`).addEventListener("click",(e)=>{
             this.removeTask(newTask.taskID);
-            });
-            
+        });
+
+        //creating events for finishing tasks
+        document.querySelector(`#tick${newTask.taskID}`).addEventListener("click",(e)=>{
+            this.tickTask(newTask.taskID);
+        });
 
     }
 
@@ -50,6 +54,16 @@ function taskManager() {
                 setTimeout(()=>{
                     tasksPlace.removeChild(task);
                 },600)              
+                break;
+            } 
+        }
+    }
+    this.tickTask=(taskId)=>{
+        for (let i=0;i<tasks.length;i++){ 
+            if (tasks[i].taskID==taskId){ 
+                const task=document.querySelector(`#taskNO${taskId}`);                 
+                task.classList.add("tasks--done");
+                tasks[i].status="completed";  
                 break;
             } 
         }
