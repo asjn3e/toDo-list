@@ -41,8 +41,23 @@ function taskManager() {
 
         console.log(newTask)
         tasksPlace.appendChild(newTask);
-        console.log(tasks)
         tasks.push(task);
+        console.log(tasks)
+
+        //events for tick and remove
+
+        tickBTN.addEventListener("click",(e)=>{
+            newTask.classList.add("tasks--done")
+        })
+        removeBTN.addEventListener("click",(e)=>{
+            newTask.classList.add("task--remove")
+        })
+        removeBTN.addEventListener("click",()=>{
+            newTask.classList.add("tasks--remove")
+        })
+        removeBTN.addEventListener("transitionend",(e)=>{
+            newTask.remove()
+        })
     }
 }
 const taskManager1 = new taskManager();

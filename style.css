@@ -219,10 +219,12 @@ p{
     justify-content: space-between;
     align-items: center;
     margin: 1rem 0;
-   
+    transition: opacity 1s ease-out,
+    transform 2s ease;
 }
 .tasks__text{
     margin: 1rem;
+    transition: text-decoration 1s ease;
 }
 .tasks__btns{
     padding:1rem;
@@ -238,6 +240,7 @@ p{
     border:none;
     color: var(--primary-color);
     background-color: var(--tick-color);
+    transition: width 1s ease;
 }
 .tasks__btn--remove{
     -webkit-appearance: none;
@@ -247,16 +250,20 @@ p{
     background-color: rgb(211, 48, 48);
 }
 .tasks--done{
-    background: linear-gradient(45deg,rgba(170, 170, 170, 0.8), rgba(170, 170, 170, 0.9));
-    transition: all .4s ease-in;
+    opacity: 60%;
 }
 .tasks--done .tasks__text {
     text-decoration: line-through;
-    transition: all .4s ease-in;
 }
 .tasks--done .tasks__btn--tick{
-    display: none;
-    transition: all .4s ease-in;
+    width: 0rem;
+    
+}
+
+
+.tasks--remove{
+    transform: scale(0.5) translate(+1000%, +1000%);
+
 }
 
 @media screen and (min-width:768px){
@@ -264,6 +271,7 @@ p{
         margin: 1.5rem auto;
         width: 60%;  
         height: 8rem;
+       
     }
     .tasks__text{
         margin: 1rem;
@@ -276,31 +284,4 @@ p{
         height:3rem;
         width: 3rem;
     }
-    .tasks__btn--tick{
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        border:none;
-        color: var(--primary-color);
-        background-color: var(--tick-color);
-    }
-    .tasks__btn--remove{
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        border:none;
-        color: var(--primary-color);
-        background-color: rgb(211, 48, 48);
-    }
-    .tasks--done{
-        background: linear-gradient(45deg,rgba(170, 170, 170, 0.8), rgba(170, 170, 170, 0.9));
-        transition: all .4s ease-in;
-    }
-    .tasks--done .tasks__text {
-        text-decoration: line-through;
-        transition: all .4s ease-in;
-    }
-    .tasks--done .tasks__btn--tick{
-        display: none;
-        transition: all .4s ease-in;
-    }
-    
 }
