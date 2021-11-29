@@ -31,6 +31,8 @@ function taskManager() {
         </div>
         `
         tasksPlace.appendChild(newTaskElement);
+        const tickSound=new Audio("/audio/tick.mp3");
+        tickSound.play();
         tasks.push(newTask);
 
 
@@ -62,6 +64,8 @@ function taskManager() {
                 tasks[i].status="removed"
                 localStorage.clear();
                 localStorage.setItem("toDo",JSON.stringify(tasks));
+                const tickSound=new Audio("/audio/remove.mp3");
+                tickSound.play();
                 if(pageStatus!="All"){
                 setTimeout(() => {
                     tasksPlace.removeChild(task);
