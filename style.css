@@ -281,7 +281,7 @@ p {
     border: none;
     color: var(--primary-color);
     background-color: var(--tick-color);
-    transition: width .6s ease;
+    transition: opacity .6s ease;
 }
 
 .tasks__btn--remove {
@@ -290,6 +290,7 @@ p {
     border: none;
     color: var(--primary-color);
     background-color: rgb(211, 48, 48);
+    transition: opacity .6s ease;
 }
 
 .tasks--done {
@@ -317,8 +318,11 @@ p {
 .tasks--removed .tasks__text {
     text-decoration: line-through;
 }
+.tasks--removed .tasks__btn--tick {
+    opacity: 0;
+}
 .tasks--removed .tasks__btn--remove{
-    display: none;
+    opacity: 0;
 }
 @media screen and (min-width:768px) {
     .tasks {
