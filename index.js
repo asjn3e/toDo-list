@@ -1,8 +1,8 @@
 function taskManager() {
     const tasksPlace = document.querySelector("#tasksPlace");
 
-    const tasks = []; //for getting and setting the local storage
-
+    let tasks = []; //for getting and setting the local storage
+    let status ="All";
     //adding task
     this.createTask = (taskTitle, taskDescription, status) => {
         const newTask = {
@@ -71,12 +71,60 @@ function taskManager() {
             }
         }
     }
+    this.createTasksAfterReload = () => {
+        const loadedTasks=localStorage.getItem("toDo")
+        console.log(loadedTasks)
+        if(!loadedTasks)return;
+        tasks=JSON.parse(loadedTasks);
+        for (let i = 0; i < tasks.length; i++) {
+            let task = tasks[i]
+            const newTaskElement = document.createElement("li");    
+            newTaskElement.id = `taskNO${task.taskID}`;
+                switch (task.status) {
+                    case "completed":
+                        newTaskElement.classList.add("box", "tasks","tasks--done")         
+                        break;
+                    case "uncompleted":
+                        newTaskElement.classList.add("box", "tasks");
+                        break;         
+                    default:
+                        newTaskElement.classList.add("box", "tasks","tasks--remove");
+                        continue;
+                        // break;
+                }
+            newTaskElement.innerHTML = ` 
+        <div class="tasks__text">
+            <h3>${task.taskTitle}</h3>
+            <p>${task.taskDescription}</p>
+        </div>
+        <div class="tasks__btns">
+            <button id="tick${task.taskID}" class="tasks__btn tasks__btn--tick"><i class="fas fa-check"></i></button>
+            <button id="remove${task.taskID}" class="tasks__btn tasks__btn--remove"><i class="fas fa-trash"></i></button>
+        </div>
+        `
+        tasksPlace.appendChild(newTaskElement);
+
+        //creating events for removeing task
+        document.querySelector(`#remove${task.taskID}`).addEventListener("click", (e) => {
+            this.removeTask(task.taskID);
+        });
+
+        //creating events for finishing tasks
+        document.querySelector(`#tick${task.taskID}`).addEventListener("click", (e) => {
+            this.tickTask(task.taskID);
+        });
+
+        }//end of the for
+        document.querySelector("#statusSpecifier").addEventListener("change",()=>{
+            
+        })
+    }//end of the createTasksAfterReload() method
 }
 
 const taskManagerObj = new taskManager();
 
 
-
+taskManagerObj.createTasksAfterReload();
 
 //adding task with events
 document.querySelector('#addTaskBTN').addEventListener("click", (e) => {
