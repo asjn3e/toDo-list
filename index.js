@@ -90,7 +90,12 @@ function taskManager() {
     }
     this.createTasksAfterReload = () => {
         const loadedTasks=localStorage.getItem("toDo")
-        if(!loadedTasks)return;
+        console.log()
+        if(!loadedTasks){
+            tasksPlace.innerHTML="";
+            tasks=[];
+            return;
+        };
         tasks=JSON.parse(loadedTasks);
         for (let i = 0; i < tasks.length; i++) {
             let task = tasks[i]
@@ -204,4 +209,12 @@ document.querySelector('#addTaskBTN').addEventListener("click", (e) => {
 document.querySelector("#statusSpecifier").addEventListener("change",(e)=>{
     console.log(e.target.value)
     taskManagerObj.changeStatus(e.target.value)
+})
+
+//clear all tasks
+document.querySelector("#clearAll").addEventListener("click",(e)=>{
+    console.log("hi")
+    e.preventDefault();
+    localStorage.clear();
+    taskManagerObj.createTasksAfterReload();
 })
