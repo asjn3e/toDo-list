@@ -2,9 +2,14 @@ function taskManager() {
     const tasksPlace = document.querySelector("#tasksPlace");
 
     let tasks = []; //for getting and setting the local storage
-    let status ="All";
+    let pageStatus ="All";
     //adding task
     this.createTask = (taskTitle, taskDescription, status) => {
+        if(status=="completed"||status=="uncompleted"){
+            tasksPlace.innerHTML=""
+            pageStatus="All"
+            this.createTasksAfterReload(false);
+        }
         const newTask = {
             taskID: tasks.length,
             taskTitle,
@@ -71,7 +76,7 @@ function taskManager() {
             }
         }
     }
-    this.createTasksAfterReload = () => {
+    this.createTasksAfterReload = (shouldMakeEvent) => {
         const loadedTasks=localStorage.getItem("toDo")
         console.log(loadedTasks)
         if(!loadedTasks)return;
@@ -93,38 +98,75 @@ function taskManager() {
                         // break;
                 }
             newTaskElement.innerHTML = ` 
-        <div class="tasks__text">
-            <h3>${task.taskTitle}</h3>
-            <p>${task.taskDescription}</p>
-        </div>
-        <div class="tasks__btns">
-            <button id="tick${task.taskID}" class="tasks__btn tasks__btn--tick"><i class="fas fa-check"></i></button>
-            <button id="remove${task.taskID}" class="tasks__btn tasks__btn--remove"><i class="fas fa-trash"></i></button>
-        </div>
-        `
-        tasksPlace.appendChild(newTaskElement);
+            <div class="tasks__text">
+                <h3>${task.taskTitle}</h3>
+                <p>${task.taskDescription}</p>
+            </div>
+            <div class="tasks__btns">
+                <button id="tick${task.taskID}" class="tasks__btn tasks__btn--tick"><i class="fas fa-check"></i></button>
+                <button id="remove${task.taskID}" class="tasks__btn tasks__btn--remove"><i class="fas fa-trash"></i></button>
+            </div>
+            `
+            tasksPlace.appendChild(newTaskElement);
+                
+            if(shouldMakeEvent==true){
+                //creating events for removeing task
+                document.querySelector(`#remove${task.taskID}`).addEventListener("click", (e) => {
+                    this.removeTask(task.taskID);
+                });
 
-        //creating events for removeing task
-        document.querySelector(`#remove${task.taskID}`).addEventListener("click", (e) => {
-            this.removeTask(task.taskID);
-        });
+                //creating events for finishing tasks
+                document.querySelector(`#tick${task.taskID}`).addEventListener("click", (e) => {
+                    this.tickTask(task.taskID);
+                });
 
-        //creating events for finishing tasks
-        document.querySelector(`#tick${task.taskID}`).addEventListener("click", (e) => {
-            this.tickTask(task.taskID);
-        });
-
+            }
         }//end of the for
-        document.querySelector("#statusSpecifier").addEventListener("change",()=>{
-            
-        })
     }//end of the createTasksAfterReload() method
+    this.changeStatus=(selectedStatus)=>{
+        if (selectedStatus=="All") {
+            tasksPlace.innerHTML=""
+            status="All"
+            this.createTasksAfterReload(false);
+            return;
+        }
+        pageStatus=selectedStatus;
+        tasksPlace.innerHTML=""
+        for (let i = 0; i < tasks.length; i++) {
+            let task = tasks[i];
+            if(selectedStatus==task.status){
+                const newTaskElement = document.createElement("li");    
+                newTaskElement.id = `taskNO${task.taskID}`;
+                if(selectedStatus=="completed"){
+                    newTaskElement.classList.add("box", "tasks","tasks--done")         
+                }
+                else if(selectedStatus=="uncompleted"){
+                    newTaskElement.classList.add("box", "tasks")         
+                }else{
+                    newTaskElement.classList.add("box", "tasks","tasks--removed")         
+                }
+                newTaskElement.innerHTML = ` 
+                <div class="tasks__text">
+                    <h3>${task.taskTitle}</h3>
+                    <p>${task.taskDescription}</p>
+                </div>
+                <div class="tasks__btns">
+                    <button id="tick${task.taskID}" class="tasks__btn tasks__btn--tick"><i class="fas fa-check"></i></button>
+                    <button id="remove${task.taskID}" class="tasks__btn tasks__btn--remove"><i class="fas fa-trash"></i></button>
+                </div>
+                `
+                tasksPlace.appendChild(newTaskElement);
+            }else{
+                continue;
+            }
+            }//end of the for
+    }//end of changeStatus() method
 }
 
 const taskManagerObj = new taskManager();
 
 
-taskManagerObj.createTasksAfterReload();
+taskManagerObj.createTasksAfterReload(true);
 
 //adding task with events
 document.querySelector('#addTaskBTN').addEventListener("click", (e) => {
@@ -140,4 +182,8 @@ document.querySelector('#addTaskBTN').addEventListener("click", (e) => {
     document.querySelector("#taskTitle").value="";
     document.querySelector("#taskDescription").innerHTML == "";
 })
-
+//changing status
+document.querySelector("#statusSpecifier").addEventListener("change",(e)=>{
+    console.log(e.target.value)
+    taskManagerObj.changeStatus(e.target.value)
+})
