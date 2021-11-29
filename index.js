@@ -2,14 +2,14 @@ function taskManager() {
     const tasksPlace = document.querySelector("#tasksPlace");
 
     let tasks = []; //for getting and setting the local storage
-    let pageStatus ="All";
+    let pageStatus = "All";
     //adding task
     this.createTask = (taskTitle, taskDescription, status) => {
-        if(status=="completed"||status=="removed"){
-            tasksPlace.innerHTML="";
-            pageStatus="All"
+        if (status == "completed" || status == "removed") {
+            tasksPlace.innerHTML = "";
+            pageStatus = "All"
             this.createTasksAfterReload();
-            document.querySelector("#statusSpecifier").value="All";
+            document.querySelector("#statusSpecifier").value = "All";
         }
         const newTask = {
             taskID: tasks.length,
@@ -31,7 +31,7 @@ function taskManager() {
         </div>
         `
         tasksPlace.appendChild(newTaskElement);
-        const tickSound=new Audio("/audio/tick.mp3");
+        const tickSound = new Audio("/audio/tick.mp3");
         tickSound.play();
         tasks.push(newTask);
 
@@ -48,28 +48,28 @@ function taskManager() {
 
         //saving to localstorage
         localStorage.clear();
-        localStorage.setItem("toDo",JSON.stringify(tasks));
-        
+        localStorage.setItem("toDo", JSON.stringify(tasks));
+
     }
     this.removeTask = (taskId) => {
         for (let i = 0; i < tasks.length; i++) {
             if (tasks[i].taskID == taskId) {
                 const task = document.querySelector(`#taskNO${taskId}`);
-                if(pageStatus!="All"){
+                if (pageStatus != "All") {
                     task.classList.add("tasks--remove");
-                }
-                else{
+                } else {
                     task.classList.add("tasks--removed");
                 }
-                tasks[i].status="removed"
+                tasks[i].status = "removed"
                 localStorage.clear();
-                localStorage.setItem("toDo",JSON.stringify(tasks));
-                const tickSound=new Audio("/audio/remove.mp3");
+                localStorage.setItem("toDo", JSON.stringify(tasks));
+                const tickSound = new Audio("/audio/remove.mp3");
                 tickSound.play();
-                if(pageStatus!="All"){
-                setTimeout(() => {
-                    tasksPlace.removeChild(task);
-                }, 600)}
+                if (pageStatus != "All") {
+                    setTimeout(() => {
+                        tasksPlace.removeChild(task);
+                    }, 600)
+                }
                 break;
             }
         }
@@ -79,7 +79,9 @@ function taskManager() {
             if (tasks[i].taskID == taskId) {
                 const task = document.querySelector(`#taskNO${taskId}`);
                 task.classList.add("tasks--done");
-                if(pageStatus=="uncompleted"){
+                const tickSound = new Audio("/audio/tick.mp3");
+                tickSound.play();
+                if (pageStatus == "uncompleted") {
                     setTimeout(() => {
                         task.classList.add("tasks--remove");
                         tasksPlace.removeChild(task);
@@ -87,35 +89,35 @@ function taskManager() {
                 }
                 tasks[i].status = "completed";
                 localStorage.clear();
-                localStorage.setItem("toDo",JSON.stringify(tasks));
+                localStorage.setItem("toDo", JSON.stringify(tasks));
                 break;
             }
         }
     }
     this.createTasksAfterReload = () => {
-        const loadedTasks=localStorage.getItem("toDo")
+        const loadedTasks = localStorage.getItem("toDo")
         console.log()
-        if(!loadedTasks){
-            tasksPlace.innerHTML="";
-            tasks=[];
+        if (!loadedTasks) {
+            tasksPlace.innerHTML = "";
+            tasks = [];
             return;
         };
-        tasks=JSON.parse(loadedTasks);
+        tasks = JSON.parse(loadedTasks);
         for (let i = 0; i < tasks.length; i++) {
             let task = tasks[i]
-            const newTaskElement = document.createElement("li");    
+            const newTaskElement = document.createElement("li");
             newTaskElement.id = `taskNO${task.taskID}`;
-                switch (task.status) {
-                    case "completed":
-                        newTaskElement.classList.add("box", "tasks","tasks--done")         
-                        break;
-                    case "uncompleted":
-                        newTaskElement.classList.add("box", "tasks");
-                        break;         
-                    default:
-                        newTaskElement.classList.add("box", "tasks","tasks--removed");
-                        break;
-                }
+            switch (task.status) {
+                case "completed":
+                    newTaskElement.classList.add("box", "tasks", "tasks--done")
+                    break;
+                case "uncompleted":
+                    newTaskElement.classList.add("box", "tasks");
+                    break;
+                default:
+                    newTaskElement.classList.add("box", "tasks", "tasks--removed");
+                    break;
+            }
             newTaskElement.innerHTML = ` 
             <div class="tasks__text">
                 <h3>${task.taskTitle}</h3>
@@ -126,42 +128,41 @@ function taskManager() {
                 <button id="remove${task.taskID}" class="tasks__btn tasks__btn--remove"><i class="fas fa-trash"></i></button>
             </div>
             `
-            tasksPlace.appendChild(newTaskElement);      
-            
-                //creating events for removeing task
-                document.querySelector(`#remove${task.taskID}`).addEventListener("click", (e) => {
-                    this.removeTask(task.taskID);
-                });
+            tasksPlace.appendChild(newTaskElement);
 
-                //creating events for finishing tasks
-                document.querySelector(`#tick${task.taskID}`).addEventListener("click", (e) => {
-                    this.tickTask(task.taskID);
-                });
+            //creating events for removeing task
+            document.querySelector(`#remove${task.taskID}`).addEventListener("click", (e) => {
+                this.removeTask(task.taskID);
+            });
 
-        }//end of the for
-    }//end of the createTasksAfterReload() method
-    this.changeStatus=(selectedStatus)=>{
-        if (selectedStatus=="All") {
-            tasksPlace.innerHTML=""
-            pageStatus="All"
-            document.querySelector("#statusSpecifier").value="All";
+            //creating events for finishing tasks
+            document.querySelector(`#tick${task.taskID}`).addEventListener("click", (e) => {
+                this.tickTask(task.taskID);
+            });
+
+        } //end of the for
+    } //end of the createTasksAfterReload() method
+    this.changeStatus = (selectedStatus) => {
+        if (selectedStatus == "All") {
+            tasksPlace.innerHTML = ""
+            pageStatus = "All"
+            document.querySelector("#statusSpecifier").value = "All";
             this.createTasksAfterReload();
             return;
         }
-        pageStatus=selectedStatus;
-        tasksPlace.innerHTML=""
+        pageStatus = selectedStatus;
+        tasksPlace.innerHTML = ""
         for (let i = 0; i < tasks.length; i++) {
             let task = tasks[i];
-            if(selectedStatus==task.status){
-                const newTaskElement = document.createElement("li");    
+            if (selectedStatus == task.status) {
+                const newTaskElement = document.createElement("li");
                 newTaskElement.id = `taskNO${task.taskID}`;
-                if(selectedStatus=="completed"){
-                    newTaskElement.classList.add("box", "tasks","tasks--done")         
-                }
-                else if(selectedStatus=="uncompleted"){
-                    newTaskElement.classList.add("box", "tasks")         
-                }else{
-                    newTaskElement.classList.add("box", "tasks","tasks--removed")         
+                if (selectedStatus == "completed") {
+                    newTaskElement.classList.add("box", "tasks", "tasks--done")
+                } else if (selectedStatus == "uncompleted") {
+                    newTaskElement.classList.add("box", "tasks")
+                } else {
+                    newTaskElement.classList.add("box", "tasks", "tasks--removed")
                 }
                 newTaskElement.innerHTML = ` 
                 <div class="tasks__text">
@@ -183,11 +184,11 @@ function taskManager() {
                 document.querySelector(`#tick${task.taskID}`).addEventListener("click", (e) => {
                     this.tickTask(task.taskID);
                 });
-            }else{
+            } else {
                 continue;
             }
-            }//end of the for
-    }//end of changeStatus() method
+        } //end of the for
+    } //end of changeStatus() method
 }
 
 const taskManagerObj = new taskManager();
@@ -206,19 +207,21 @@ document.querySelector('#addTaskBTN').addEventListener("click", (e) => {
         return;
     }
     taskManagerObj.createTask(document.querySelector("#taskTitle").value, document.querySelector("#taskDescription").value, "uncompleted")
-    document.querySelector("#taskTitle").value="";
-    document.querySelector("#taskDescription").innerHTML == "";
+    document.querySelector("#taskTitle").value = "";
+    document.querySelector("#taskDescription").value = "";
 })
 //changing status
-document.querySelector("#statusSpecifier").addEventListener("change",(e)=>{
+document.querySelector("#statusSpecifier").addEventListener("change", (e) => {
     console.log(e.target.value)
     taskManagerObj.changeStatus(e.target.value)
 })
 
 //clear all tasks
-document.querySelector("#clearAll").addEventListener("click",(e)=>{
+document.querySelector("#clearAll").addEventListener("click", (e) => {
     console.log("hi")
     e.preventDefault();
     localStorage.clear();
+    const tickSound = new Audio("/audio/remove.mp3");
+    tickSound.play();
     taskManagerObj.createTasksAfterReload();
 })
