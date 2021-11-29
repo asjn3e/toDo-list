@@ -31,7 +31,7 @@ function taskManager() {
         </div>
         `
         tasksPlace.appendChild(newTaskElement);
-        const tickSound = new Audio("/audio/tick.mp3");
+        const tickSound = new Audio("audio/tick.mp3");
         tickSound.play();
         tasks.push(newTask);
 
@@ -63,7 +63,7 @@ function taskManager() {
                 tasks[i].status = "removed"
                 localStorage.clear();
                 localStorage.setItem("toDo", JSON.stringify(tasks));
-                const tickSound = new Audio("/audio/remove.mp3");
+                const tickSound = new Audio("audio/remove.mp3");
                 tickSound.play();
                 if (pageStatus != "All") {
                     setTimeout(() => {
@@ -79,7 +79,7 @@ function taskManager() {
             if (tasks[i].taskID == taskId) {
                 const task = document.querySelector(`#taskNO${taskId}`);
                 task.classList.add("tasks--done");
-                const tickSound = new Audio("/audio/tick.mp3");
+                const tickSound = new Audio("audio/tick.mp3");
                 tickSound.play();
                 if (pageStatus == "uncompleted") {
                     setTimeout(() => {
@@ -221,7 +221,7 @@ document.querySelector("#clearAll").addEventListener("click", (e) => {
     console.log("hi")
     e.preventDefault();
     localStorage.clear();
-    const tickSound = new Audio("/audio/remove.mp3");
+    const tickSound = new Audio("audio/remove.mp3");
     tickSound.play();
     taskManagerObj.createTasksAfterReload();
 })
